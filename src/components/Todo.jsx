@@ -1,67 +1,129 @@
-import React, { useState } from "react";
-import { BiEdit } from "react-icons/bi";
+import React  from 'react'
+
+
+// import react icons 
 import { AiFillDelete } from "react-icons/ai";
-const Todo = () => {
-    const [todo, setTodo] = useState([]);
-    const [inputValue, setInputValue] = useState("");
-    // const [indexValue, setIndexValue] = useState("");
-    // const [editInputValue, setEditInputValue] = useState("");
+import { BiEdit } from "react-icons/bi";
 
 
-    const addtodo = () => {
-        todo.push(inputValue);
-        setTodo([...todo]);
-        setInputValue("");
-    };
 
-    const deleteAll = () => {
+
+
+
+const Ahsan = () => {
+
+
+    const [todo, setTodo] = React.useState([]);
+    const [userInput, setUserInput] = React.useState("");
+    const [indexValue, setIndexValue] = React.useState("");
+    const [editInput, setEditInput] = React.useState("");
+
+
+
+    
+
+
+    // Adding   with  validation 
+
+    const addTodo = () => {
+        if (userInput == "" ) {
+            alert("Name must be filled out");
+            return false;
+        }
+        else{
+            todo.push(userInput);
+            setTodo([...todo]);
+            setUserInput("");
+        }
+    }
+
+    // delete Complete List 
+    const removeAll = () => {
         setTodo([]);
-    };
+    }
 
-    const deleteTodo = (ind) => {
-        todo.splice(ind, 1);
+    // delete one list
+    const deleteTodo = (index) => {
+        todo.splice(index , 1 );
         setTodo([...todo]);
-    };
+    }
 
-    // const editTodo = (ind) => {
-    //     setIndexValue(ind);
-    // };
 
-    // const updateValue = () => {
-    //     todo.splice(indexValue, 1, editInputValue);
-    //     setTodo([...todo]);
-    //     setIndexValue("");
-    //     setEditInputValue("");
-    // };
-    console.log("todo", todo);
+    // edit input 
+    const editTodo = (index) => {
+        setIndexValue(index)
+    }
+
+    // Update Function
+    const update = () => {
+        todo.splice(indexValue, 1, editInput);
+        setTodo([...todo]);
+        setIndexValue("");
+        setEditInput("");
+    }
+
+
+
+
+
     return (
-        <div>
-            <h1>  TODO LIST  </h1>
-            <div>
-                <input type="text" value={inputValue} placeholder="ENTER TODO..." onChange={(e) => setInputValue(e.target.value)} />
-                <button onClick={addtodo}>  ADD TODO  </button>
-                <button onClick={deleteAll}>  DELETE TODO  </button>
-            </div>
-
-            <section className="container">
-                {todo.map((value, index, array) => {
-                    return(
-                    // return index === indexValue ? (
-                    //     <>
-                    //         <input key={index} placeholder="edit value" value={editInputValue} onChange={(e) => setEditInputValue(e.target.value)} />
-                    //         <button onClick={updateValue}>  update  </button>
-                    //     </>
-                    // ) : (
-                        <div key={index}>
-                            <li>{value} </li>
-                            <span onClick={() => deleteTodo(index)}> <AiFillDelete />  </span>
-                            {/* <span onClick={() => editTodo(index)}> <BiEdit /> </span> */}
+        <div className="container">
+            <div className="row">
+                <div className="col-md-8 mx-auto">
+                    <div className="inner-wrap-main">
+                        <h1>TODO APPLICATION BY M.AHSAN SHAIKH</h1>
+                        <div className="input-field-main">
+                            <input className="form-control"  value={userInput} placeholder='Enter Todo' onChange={(e) => setUserInput(e.target.value)} />
+                            <button className="Add-btn" onClick={addTodo}>Add</button>
+                            <button className="Remove-btn" onClick={removeAll}>Remove</button>
                         </div>
-                    );
-                })}
-            </section>
-        </div>
-    );
-};
+                        <ul className='todo-listing'>
+                            {todo.map((value, index) => {
+                                return index === indexValue ?  
+                                (
+                                    <div className="inner-input"  key={index}>
+                                         <input className="form-control" value={editInput} placeholder='Edit Previous Value' onChange={(e) => setEditInput(e.target.value)} />
+                                         <button className="Add-btn" onClick={update}>Update Now</button>
+                                    </div>
+                                )
+                                :
+                                (
+                                    <div className="inner-input"  key={index}>
+                                        <li>{value}</li>
+                                        <button className="edit-btn" onClick={ () => editTodo(index) } > <BiEdit /> </button>
+                                        <button className="delete-btn" onClick={ () => deleteTodo(index) }>  <AiFillDelete /> </button>
+                                    </div>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>
 
-export default Todo;
+                <div className="col-md-12">
+                    <div className="copywrite-line">
+                        <p>  Copyright © SNTECHSTUDIO.COM  &nbsp; - &nbsp;  All Rights Reserved 2022 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Ahsan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
